@@ -1,0 +1,28 @@
+{
+  "name": "@aet/api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "tsx src/server.ts"
+  },
+  "dependencies": {
+    "@aet/domain": "*",
+    "@aet/persistence": "*",
+    "@aet/git-integration": "*",
+    "@aet/context-engine": "*",
+    "@aet/token-intelligence": "*",
+    "@aet/model-router": "*",
+    "@aet/providers": "*",
+    "@aet/credentials": "*",
+    "@aet/agent-runtime": "*",
+    "@aet/workflow-engine": "*",
+    "@aet/orchestrator": "*",
+    "fastify": "^5.1.0",
+    "@fastify/cors": "^10.0.1"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2"
+  }
+}

@@ -1,0 +1,13 @@
+/*
+ * Everything visual now goes through MUI's theme (see ../theme.ts) and each
+ * component's `sx` prop — no component in this app uses a CSS class
+ * anymore. This file only fills in what MUI's CssBaseline (see App.tsx)
+ * doesn't already handle: a full-height root so a 100vh layout has
+ * something to measure against.
+ */
+
+html,
+body,
+#root {
+  height: 100%;
+}

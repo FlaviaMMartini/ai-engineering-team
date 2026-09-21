@@ -1,0 +1,13 @@
+export type ProjectId = string;
+export type RepositoryId = string;
+export type TaskId = string;
+export type WorkflowExecutionId = string;
+export type AgentExecutionId = string;
+export type LLMRequestId = string;
+export type ContextPackId = string;
+export type ContextExpansionRequestId = string;
+export type ReviewId = string;
+export type ApprovalId = string;
+export type CredentialId = string;
+export type ProviderConfigurationId = string;
+export type EventId = string;

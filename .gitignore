@@ -1,0 +1,20 @@
+node_modules/
+dist/
+build/
+*.tsbuildinfo
+.env
+.env.local
+.env.*.local
+*.sqlite
+*.sqlite-journal
+*.sqlite-shm
+*.sqlite-wal
+*.log
+.DS_Store
+coverage/
+work/
+# Runtime data (SQLite DB, worktrees, generated repos) — never source, wherever it appears
+# (repo root during local dev, or apps/api/data/ where the app actually creates it).
+data/
+.vscode/
+.idea/

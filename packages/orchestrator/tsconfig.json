@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src"
+  },
+  "references": [
+    { "path": "../domain" },
+    { "path": "../workflow-engine" },
+    { "path": "../agent-runtime" },
+    { "path": "../context-engine" },
+    { "path": "../token-intelligence" },
+    { "path": "../model-router" },
+    { "path": "../git-integration" },
+    { "path": "../persistence" }
+  ],
+  "include": ["src"]
+}

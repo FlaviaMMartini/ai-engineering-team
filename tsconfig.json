@@ -1,0 +1,18 @@
+{
+  "files": [],
+  "references": [
+    { "path": "packages/domain" },
+    { "path": "packages/context-engine" },
+    { "path": "packages/token-intelligence" },
+    { "path": "packages/model-router" },
+    { "path": "packages/providers" },
+    { "path": "packages/credentials" },
+    { "path": "packages/workflow-engine" },
+    { "path": "packages/git-integration" },
+    { "path": "packages/persistence" },
+    { "path": "packages/agent-runtime" },
+    { "path": "packages/orchestrator" },
+    { "path": "apps/api" },
+    { "path": "apps/web" }
+  ]
+}

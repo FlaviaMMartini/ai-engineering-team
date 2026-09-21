@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src"
+  },
+  "references": [
+    { "path": "../domain" },
+    { "path": "../model-router" },
+    { "path": "../context-engine" },
+    { "path": "../token-intelligence" },
+    { "path": "../git-integration" },
+    { "path": "../workflow-engine" }
+  ],
+  "include": ["src"]
+}

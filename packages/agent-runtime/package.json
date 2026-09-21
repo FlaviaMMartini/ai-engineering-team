@@ -1,0 +1,16 @@
+{
+  "name": "@aet/agent-runtime",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "dependencies": {
+    "@aet/domain": "*",
+    "@aet/model-router": "*",
+    "@aet/context-engine": "*",
+    "@aet/token-intelligence": "*",
+    "@aet/git-integration": "*",
+    "@aet/workflow-engine": "*"
+  }
+}
