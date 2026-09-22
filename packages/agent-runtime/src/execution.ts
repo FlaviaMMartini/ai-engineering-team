@@ -55,7 +55,12 @@ function repairTemplateLiteralStrings(text: string): string {
 function stripCodeFence(text: string): string {
   const trimmed = text.trim();
 
-  const fenceMatch = /```(?:json)?\s*([\s\S]*?)\s*```/.exec(trimmed);
+  // Matches ANY fence language tag (json, bash, javascript, ts, ...), not just "json" — caught
+  // live when a model fenced its JSON response as ```bash instead: the old `(?:json)?` regex only
+  // ever recognized that one specific tag, so an unrecognized one left the literal "bash\n" text
+  // at the front of what got handed to JSON.parse, which is not what the response fencing is
+  // actually about — the language tag itself is never meaningful here, only the content inside it.
+  const fenceMatch = /```[a-zA-Z0-9_-]*\s*([\s\S]*?)\s*```/.exec(trimmed);
   if (fenceMatch?.[1] !== undefined) return fenceMatch[1];
 
   const firstBracket = trimmed.search(/[[{]/);
