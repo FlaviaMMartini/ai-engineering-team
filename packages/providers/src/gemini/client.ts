@@ -21,7 +21,9 @@ export interface GeminiGenerateRequest {
     maxOutputTokens: number;
     temperature?: number;
     responseMimeType?: string;
-    thinkingConfig?: { thinkingBudget: number };
+    // Two different, MUTUALLY EXCLUSIVE shapes across Gemini model generations — see
+    // mapper.ts's toGeminiRequest doc comment for why both exist and are picked per-model.
+    thinkingConfig?: { thinkingBudget: number } | { thinkingLevel: 'MINIMAL' | 'MEDIUM' | 'HIGH' };
   };
 }
 

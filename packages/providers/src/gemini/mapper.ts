@@ -27,18 +27,35 @@ function toGeminiContents(request: LLMGenerationRequest): readonly GeminiContent
  * far more reliable than a prompt instruction alone, which a model can
  * simply ignore.
  *
- * `thinkingConfig.thinkingBudget: 0` disables Gemini 3's "thinking" tokens,
- * which otherwise draw from the SAME `maxOutputTokens` ceiling as the
- * visible response — caught live via a diagnostic that logs `finishReason`
- * on every parse failure: the Developer's call reported `finishReason:
- * "max_tokens"` after producing only ~1.3KB of visible text against an
- * 8000-token (~32KB) budget, meaning the model spent nearly the entire
- * budget thinking and had almost nothing left to actually answer with. Every
- * agent role here wants a single deterministic structured document, not a
- * visible reasoning trace, so thinking is pure overhead for this codebase's
- * use case — worth zero for output quality here and directly starving the
- * one thing that mattered.
+ * Disabling "thinking" tokens matters because they otherwise draw from the
+ * SAME `maxOutputTokens` ceiling as the visible response — caught live via a
+ * diagnostic that logs `finishReason` on every parse failure: the
+ * Developer's call reported `finishReason: "max_tokens"` after producing
+ * only ~1.3KB of visible text against an 8000-token (~32KB) budget, meaning
+ * the model spent nearly the entire budget thinking and had almost nothing
+ * left to actually answer with. Every agent role here wants a single
+ * deterministic structured document, not a visible reasoning trace, so
+ * thinking is pure overhead for this codebase's use case.
+ *
+ * The *shape* of that config is NOT uniform across Gemini model
+ * generations, and sending the wrong one is a hard `400 INVALID_ARGUMENT` —
+ * not silently ignored — caught live when the automatic same-provider
+ * fallback (see composition-root.ts's `buildGeminiFallbackCatalogEntry`)
+ * fell through to `gemini-3.5-flash-lite` and every one of its calls failed
+ * outright: `gemini-3.6-flash` accepts the older numeric `thinkingBudget`,
+ * while `gemini-3.5-flash-lite` only exposes the newer enum `thinkingLevel`
+ * ('MINIMAL'/'MEDIUM'/'HIGH') and rejects `thinkingBudget` entirely.
+ * `minimalThinkingConfigFor` below is the one place that distinction lives —
+ * add a new Gemini model's own correct shape here, never assume the
+ * previous model's shape still applies.
  */
+function minimalThinkingConfigFor(model: string): { thinkingBudget: number } | { thinkingLevel: 'MINIMAL' } {
+  if (model === 'gemini-3.5-flash-lite') {
+    return { thinkingLevel: 'MINIMAL' };
+  }
+  return { thinkingBudget: 0 };
+}
+
 export function toGeminiRequest(request: LLMGenerationRequest): GeminiGenerateRequest {
   return {
     contents: toGeminiContents(request),
@@ -46,7 +63,7 @@ export function toGeminiRequest(request: LLMGenerationRequest): GeminiGenerateRe
     generationConfig: {
       maxOutputTokens: request.maxOutputTokens,
       responseMimeType: 'application/json',
-      thinkingConfig: { thinkingBudget: 0 },
+      thinkingConfig: minimalThinkingConfigFor(request.model),
       ...(request.temperature !== undefined ? { temperature: request.temperature } : {})
     }
   };
